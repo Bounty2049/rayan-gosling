@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Поддержать автора</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/response.css">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body class="body-1">
+    <div class="container">
+        <!-- Фото -->
+        <div class="author-image">
+            <a href="./images/creator.jpg"><img src="images/creator.jpg" alt="Автор"></a>
+        </div>
+
+        <!-- Форма -->
+        <div class="form-section">
+            <h1>Поддержи автора</h1>
+
+            <div class="input-group">
+                <label for="message">Твоё сообщение</label>
+                <input type="text" id="message" placeholder="Напиши что-нибудь доброе..." />
+            </div>
+
+            <div class="input-group">
+                <label for="donate">Поддержать автора (₽)</label>
+                <input
+                    type="number"
+                    id="donate"
+                    placeholder="100"
+                    min="1"
+                    step="1"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                />
+            </div>
+
+            <button class="donate-btn" onclick="sendDonation()">
+                <span>Отправить донат</span>
+            </button>
+        </div>
+
+        <!-- Таблица донатов -->
+        <div class="form-section" style="margin-top: 40px;">
+            <h2>Благодарности</h2>
+            <table class="donations-table" id="donationsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Сумма (₽)</th>
+                        <th>Сообщение</th>
+                    </tr>
+                </thead>
+                <tbody id="donationsBody">
+                    <tr class="empty">
+                        <td colspan="3">Пока нет донатов. Будь первым!</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let donationId = 1; // Начальный ID
+
+        function sendDonation() {
+            const amountInput = document.getElementById('donate');
+            const messageInput = document.getElementById('message');
+            const amount = amountInput.value.trim();
+            const message = messageInput.value.trim();
+
+            if (!amount || amount < 1) {
+                alert('Введите сумму для поддержки!');
+                return;
+            }
+
+            // Добавляем донат в таблицу
+            addDonationToTable(donationId, amount, message || 'Без сообщения');
+
+            // Увеличиваем ID
+            donationId++;
+
+            // Очищаем поля
+            amountInput.value = '';
+            messageInput.value = '';
+
+            // Показываем благодарность
+            alert(`Спасибо за поддержку на ${amount} ₽!\n\nСообщение: "${message || 'Без сообщения'}"`);
+        }
+
+        function addDonationToTable(id, amount, message) {
+            const tbody = document.getElementById('donationsBody');
+            const emptyRow = tbody.querySelector('.empty');
+
+            // Удаляем сообщение "пока нет донатов", если оно есть
+            if (emptyRow) {
+                emptyRow.remove();
+            }
+
+            // Создаём новую строку
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${id}</td>
+                <td>${amount}</td>
+                <td>${escapeHtml(message)}</td>
+            `;
+
+            // Добавляем в начало таблицы (новые сверху)
+            tbody.insertBefore(row, tbody.firstChild);
+        }
+
+        // Безопасное экранирование HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    position: relative;
+    z-index: 1;
+    padding: 100px 20px;
+    color: #5d1a3d;
+    /* background: rgba(255, 255, 255, 0.7); */
+    /* margin: 50px auto; */
+    /* max-width: 1000px; */
+    /* border-radius: 20px; */
+    /* box-shadow: 0 10px 30px rgba(0,0,0,0.1); */
+    /* top: 100px; */
+}
+
+h1 {
+    text-align: center;
+    color:rgb(187, 27, 54);
+    padding-bottom: 25px;
+}
+
+p {
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.group-links {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 24px 0;
+    justify-content: center;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.group-links .link {
+    flex: 1;
+    min-width: 220px;
+    max-width: 280px;
+}
+
+.group-links .link a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px; /* Фиксированная высота — все кнопки одинаковые */
+    padding: 0 24px;
+    background: linear-gradient(135deg, rgb(255, 99, 125), rgb(199, 77, 98));
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgb(255, 139, 139);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border: 2px solid transparent;
+}
+
+/* Наведение: подъём + усиление градиента и свечения */
+.group-links .link a:hover {
+    transform: translateY(-5px);
+    background: linear-gradient(135deg, rgb(255, 99, 125), rgb(199, 77, 98));
+    box-shadow: 0 10px 25px rgb(255, 139, 139);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Клик: лёгкое "вдавливание" */
+.group-links .link a:active {
+    transform: translateY(-2px);
+}
+
+/* Ripple-эффект при клике */
+.group-links .link a::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.group-links .link a:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Текст всегда по центру и поверх эффектов */
+.group-links .link a p {
+    margin: 0;
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+/* Адаптивность: на мобильных — по одной кнопке в столбик */
+@media (max-width: 768px) {
+    .group-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .group-links .link {
+        width: 100%;
+        max-width: 300px;
+        min-width: 0;
+    }
+    
+    .group-links .link a {
+        font-size: 1rem;
+        height: 56px;
+    }
+}
